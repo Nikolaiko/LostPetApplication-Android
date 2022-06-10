@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_selector_login_title">Вход</string>
+    <string name="auth_selector_register_title">Регистрация</string>
+    <string name="forgot_password_title">Забыли пароль?</string>
+    <string name="later_login_title">Войти позже ></string>
+    <string name="registration_button_title">Зарегистрироваться</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="email_field_hint">Email</string>
+    <string name="password_field_hint">Пароль</string>
+    <string name="name_field_hint">Имя</string>
+    <string name="repeat_password_field_hint">Потвторите пароль</string>
+</resources>
