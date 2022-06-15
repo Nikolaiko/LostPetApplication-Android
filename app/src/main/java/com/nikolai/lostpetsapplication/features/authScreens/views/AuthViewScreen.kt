@@ -2,6 +2,7 @@ package com.nikolai.lostpetsapplication.features.authScreens.views
 
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -45,7 +46,7 @@ fun AuthScreenView(
                 painter = painterResource(id = R.drawable.app_logo_svg),
                 contentDescription = stringResource(id = R.string.app_logo_desc)
             )
-            AnimatedContent(targetState = screenType.value) { screenType ->
+            Crossfade(targetState = screenType.value) { screenType ->
                 AuthSelectorView(
                     buttonTapCallback = viewModel::setAuthScreenType,
                     currentType = screenType
