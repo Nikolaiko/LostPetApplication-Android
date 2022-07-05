@@ -58,13 +58,26 @@ fun AuthScreenView(
                         .padding(top = viewHeight.times(authFormTopPaddingCoff)),
                     spacing = viewHeight.times(elementsSpacingCoff),
                     columnBottomSpacing = viewHeight.times(elementsColumnBottomCoff),
-                    buttonTopSpacing = viewHeight.times(bottomButtonTopCoff)
+                    buttonTopSpacing = viewHeight.times(bottomButtonTopCoff),
+                    loginValue = viewModel.loginEmail,
+                    loginChangeCallback = viewModel::onLoginEmailChange,
+                    passwordValue = viewModel.loginPassword,
+                    passwordChangeCallback = viewModel::onLoginPasswordChange,
+                    loginCallback = viewModel::tryToLogin
                 )
                 AuthScreenType.registration -> AuthRegistrationView(
                     modifier = Modifier
                         .padding(top = viewHeight.times(authFormTopPaddingCoff)),
                     spacing = viewHeight.times(elementsSpacingCoff),
-                    columnBottomSpacing = viewHeight.times(elementsColumnBottomCoff)
+                    columnBottomSpacing = viewHeight.times(elementsColumnBottomCoff),
+                    loginValue = viewModel.registerEmail,
+                    loginChangeCallback = viewModel::onRegisterEmailChange,
+                    passwordValue = viewModel.registerPassword,
+                    passwordChangeCallback = viewModel::onRegisterPasswordChange,
+                    nameValue = viewModel.registerName,
+                    nameChangeCallback = viewModel::onRegisterNameChange,
+                    passwordConfirmValue = viewModel.registerConfirmPassword,
+                    passwordConfirmChangeCallback = viewModel::onRegisterPasswordConfirmChange
                 )
             }
 
@@ -86,17 +99,17 @@ fun AuthScreenView(
     }
 }
 
-@Preview
-@Composable
-fun AuthScreenPreview() {
-    LostPetsApplicationTheme {
-        Surface {
-            val model = AuthScreenViewModel()
-
-            AuthScreenView(
-                viewModel = model
-            )
-        }
-    }
-
-}
+//@Preview
+//@Composable
+//fun AuthScreenPreview() {
+//    LostPetsApplicationTheme {
+//        Surface {
+//            val model = AuthScreenViewModel()
+//
+//            AuthScreenView(
+//                viewModel = model
+//            )
+//        }
+//    }
+//
+//}

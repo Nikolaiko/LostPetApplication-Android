@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nikolai.lostpetsapplication.R
 import com.nikolai.lostpetsapplication.features.authScreens.consts.textButtonStyle
+import com.nikolai.lostpetsapplication.model.typedefs.StringCallback
+import com.nikolai.lostpetsapplication.model.typedefs.VoidCallback
 import com.nikolai.lostpetsapplication.ui.theme.LostPetsApplicationTheme
 
 @Composable
@@ -19,7 +21,12 @@ fun AuthLoginView(
     modifier: Modifier = Modifier,
     spacing: Dp = 32.dp,
     columnBottomSpacing: Dp = 40.dp,
-    buttonTopSpacing: Dp = 52.dp
+    buttonTopSpacing: Dp = 52.dp,
+    loginValue: String = "",
+    loginChangeCallback: StringCallback = { },
+    passwordValue: String = "",
+    passwordChangeCallback: StringCallback = { },
+    loginCallback: VoidCallback = { }
 ) {
     Column(
         modifier = modifier,
@@ -33,16 +40,20 @@ fun AuthLoginView(
             verticalArrangement = Arrangement.spacedBy(spacing)
         ) {
             AuthTextField(
-                hint = stringResource(id = R.string.email_field_hint)
+                hint = stringResource(id = R.string.email_field_hint),
+                currentValue = loginValue,
+                onChange = loginChangeCallback
             )
             AuthTextField(
-                hint = stringResource(id = R.string.password_field_hint)
+                hint = stringResource(id = R.string.password_field_hint),
+                currentValue = passwordValue,
+                onChange = passwordChangeCallback
             )
         }
 
         BluePawButton(
             title = stringResource(id = R.string.auth_selector_login_title),
-            onClick = { }
+            onClick = loginCallback
         )
 
         TextButton(

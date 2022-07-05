@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nikolai.lostpetsapplication.R
 import com.nikolai.lostpetsapplication.features.authScreens.consts.textButtonStyle
+import com.nikolai.lostpetsapplication.model.typedefs.StringCallback
+import com.nikolai.lostpetsapplication.model.typedefs.VoidCallback
 import com.nikolai.lostpetsapplication.ui.theme.LostPetsApplicationTheme
 
 
@@ -24,6 +26,15 @@ fun AuthRegistrationView(
     modifier: Modifier = Modifier,
     spacing: Dp = 32.dp,
     columnBottomSpacing: Dp = 40.dp,
+    loginValue: String = "",
+    loginChangeCallback: StringCallback = { },
+    passwordValue: String = "",
+    passwordChangeCallback: StringCallback = { },
+    passwordConfirmValue: String = "",
+    passwordConfirmChangeCallback: StringCallback = { },
+    nameValue: String = "",
+    nameChangeCallback: StringCallback = { },
+    registerCallback: VoidCallback = { }
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -36,22 +47,30 @@ fun AuthRegistrationView(
             verticalArrangement = Arrangement.spacedBy(spacing)
         ) {
             AuthTextField(
-                hint = stringResource(id = R.string.name_field_hint)
+                hint = stringResource(id = R.string.name_field_hint),
+                currentValue = nameValue,
+                onChange = nameChangeCallback
             )
             AuthTextField(
-                hint = stringResource(id = R.string.email_field_hint)
+                hint = stringResource(id = R.string.email_field_hint),
+                currentValue = loginValue,
+                onChange = loginChangeCallback
             )
             AuthTextField(
-                hint = stringResource(id = R.string.password_field_hint)
+                hint = stringResource(id = R.string.password_field_hint),
+                currentValue = passwordValue,
+                onChange = passwordChangeCallback
             )
             AuthTextField(
-                hint = stringResource(id = R.string.repeat_password_field_hint)
+                hint = stringResource(id = R.string.repeat_password_field_hint),
+                currentValue = passwordConfirmValue,
+                onChange = passwordConfirmChangeCallback
             )
         }
 
         BluePawButton(
             title = stringResource(id = R.string.registration_button_title),
-            onClick = { }
+            onClick = registerCallback
         )
     }
 }
