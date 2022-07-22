@@ -18,7 +18,11 @@ import androidx.navigation.navigation
 import com.nikolai.lostpetsapplication.features.authScreens.viewModel.AuthScreenViewModel
 import com.nikolai.lostpetsapplication.features.authScreens.views.AuthScreenView
 import com.nikolai.lostpetsapplication.features.mainScreen.view.MainScreenView
+import com.nikolai.lostpetsapplication.model.navigation.AppDestinations
+import com.nikolai.lostpetsapplication.model.navigation.authGraph
+import com.nikolai.lostpetsapplication.model.navigation.mainGraph
 import com.nikolai.lostpetsapplication.services.localStorage.UserDataStorage
+import com.nikolai.lostpetsapplication.services.navigation.AppNavigation
 import com.nikolai.lostpetsapplication.ui.theme.LostPetsApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,30 +33,36 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var userDataRepository: UserDataStorage
 
+    @Inject
+    lateinit var navigation: AppNavigation
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val startingLocation = when(userDataRepository.getTokens()) {
-            null -> "Auth"
-            else -> "Main"
+            null -> authGraph
+            else -> authGraph
         }
 
         setContent {
             val navigationController = rememberNavController()
+            navigation.controller = navigationController
 
             LostPetsApplicationTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
                     NavHost(navController = navigationController, startDestination = startingLocation) {
-                        navigation(startDestination = "AuthScreen", route = "Auth") {
-                            composable(route = "AuthScreen") {
+
+                        navigation(startDestination = AppDestinations.AuthScreen.name, route = authGraph) {
+                            composable(route = AppDestinations.AuthScreen.name) {
                                 val viewModel = hiltViewModel<AuthScreenViewModel>()
                                 AuthScreenView(
                                     viewModel = viewModel
                                 )
                             }
                         }
-                        navigation(startDestination = "MainScreen", route = "Main") {
-                            composable(route = "MainScreen") {
+
+                        navigation(startDestination = AppDestinations.MainScreen.name, route = mainGraph) {
+                            composable(route = AppDestinations.MainScreen.name) {
                                 MainScreenView()
                             }
                         }

@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nikolai.lostpetsapplication.features.authScreens.model.AuthScreenState
 import com.nikolai.lostpetsapplication.features.authScreens.model.AuthScreenType
+import com.nikolai.lostpetsapplication.model.navigation.AppDestinations
 import com.nikolai.lostpetsapplication.model.user.LoginUserData
 import com.nikolai.lostpetsapplication.services.localStorage.UserDataStorage
+import com.nikolai.lostpetsapplication.services.navigation.AppNavigation
 import com.nikolai.lostpetsapplication.services.network.NetworkLayer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthScreenViewModel @Inject constructor(
     private val network: NetworkLayer,
-    private val userDataStorage: UserDataStorage
+    private val userDataStorage: UserDataStorage,
+    private val navigation: AppNavigation
 ) : ViewModel() {
     private val selectedType = MutableLiveData<AuthScreenType>()
     private val loginValue = MutableLiveData("")
@@ -68,9 +71,12 @@ class AuthScreenViewModel @Inject constructor(
                 password = loginPasswordValue.value ?: ""
             )
             when(val loginTokens = network.loginRequest(loginData)) {
-                null -> { }
+                null -> {
+                    
+                }
                 else -> {
                     userDataStorage.saveTokens(loginTokens)
+                    navigation.navigateTo(AppDestinations.MainScreen)
                 }
             }
         }
