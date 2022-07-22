@@ -1,12 +1,10 @@
 package com.nikolai.lostpetsapplication.features.authScreens.views
 
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -14,13 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nikolai.lostpetsapplication.R
 import com.nikolai.lostpetsapplication.features.authScreens.consts.*
 import com.nikolai.lostpetsapplication.features.authScreens.model.AuthScreenType
 import com.nikolai.lostpetsapplication.features.authScreens.viewModel.AuthScreenViewModel
-import com.nikolai.lostpetsapplication.ui.theme.LostPetsApplicationTheme
+import com.nikolai.lostpetsapplication.features.authScreens.views.subViews.AuthLoginView
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -28,6 +25,8 @@ fun AuthScreenView(
     viewModel: AuthScreenViewModel
 ) {
     val screenType = viewModel.state.selectedType.observeAsState(AuthScreenType.login)
+    val loginValue = viewModel.state.loginValue.observeAsState("")
+    val loginPasswordValue = viewModel.state.loginPasswordValue.observeAsState("")
 
     BoxWithConstraints {
         val viewHeight = maxHeight
@@ -59,9 +58,9 @@ fun AuthScreenView(
                     spacing = viewHeight.times(elementsSpacingCoff),
                     columnBottomSpacing = viewHeight.times(elementsColumnBottomCoff),
                     buttonTopSpacing = viewHeight.times(bottomButtonTopCoff),
-                    loginValue = viewModel.loginEmail,
+                    loginValue = loginValue.value,
                     loginChangeCallback = viewModel::onLoginEmailChange,
-                    passwordValue = viewModel.loginPassword,
+                    passwordValue = loginPasswordValue.value,
                     passwordChangeCallback = viewModel::onLoginPasswordChange,
                     loginCallback = viewModel::tryToLogin
                 )

@@ -18,13 +18,14 @@ class AuthScreenViewModel @Inject constructor(
     private val userDataStorage: UserDataStorage
 ) : ViewModel() {
     private val selectedType = MutableLiveData<AuthScreenType>()
+    private val loginValue = MutableLiveData("")
+    private val loginPasswordValue = MutableLiveData("")
 
     var state = AuthScreenState(
-        selectedType = selectedType
+        selectedType = selectedType,
+        loginValue = loginValue,
+        loginPasswordValue = loginPasswordValue
     )
-
-    var loginEmail: String = ""
-    var loginPassword: String = ""
 
     var registerEmail: String = ""
     var registerPassword: String = ""
@@ -36,11 +37,11 @@ class AuthScreenViewModel @Inject constructor(
     }
 
     fun onLoginEmailChange(newValue: String) {
-        loginEmail = newValue
+        loginValue.postValue(newValue)
     }
 
     fun onLoginPasswordChange(newValue: String) {
-        loginPassword = newValue
+        loginPasswordValue.postValue(newValue)
     }
 
     fun onRegisterEmailChange(newValue: String) {
@@ -62,7 +63,10 @@ class AuthScreenViewModel @Inject constructor(
 
     fun tryToLogin() {
         viewModelScope.launch {
-            val loginData = LoginUserData(email = loginEmail, password = loginPassword)
+            val loginData = LoginUserData(
+                email = loginValue.value ?: "",
+                password = loginPasswordValue.value ?: ""
+            )
             when(val loginTokens = network.loginRequest(loginData)) {
                 null -> { }
                 else -> {

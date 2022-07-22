@@ -26,7 +26,7 @@ class RetrofitNetwork : NetworkLayer {
         .build()
 
     private val stagingRetrofit = Retrofit.Builder()
-        .baseUrl("http://pets.project.issart.com/api/1.0.0/")
+        .baseUrl("https://petsproject.issart.com/api/1.0.0/")
         .client(client)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
