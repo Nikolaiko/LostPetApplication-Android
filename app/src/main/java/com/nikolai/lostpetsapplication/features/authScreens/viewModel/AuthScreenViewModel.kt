@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.nikolai.lostpetsapplication.features.authScreens.model.AuthScreenState
 import com.nikolai.lostpetsapplication.features.authScreens.model.AuthScreenType
 import com.nikolai.lostpetsapplication.model.user.LoginUserData
+import com.nikolai.lostpetsapplication.services.localStorage.UserDataStorage
 import com.nikolai.lostpetsapplication.services.network.NetworkLayer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthScreenViewModel @Inject constructor(
-    private val network: NetworkLayer
+    private val network: NetworkLayer,
+    private val userDataStorage: UserDataStorage
 ) : ViewModel() {
     private val selectedType = MutableLiveData<AuthScreenType>()
 
@@ -60,10 +62,13 @@ class AuthScreenViewModel @Inject constructor(
 
     fun tryToLogin() {
         viewModelScope.launch {
-            network.loginRequest(LoginUserData(
-                email = "Some email",
-                password = "User password"
-            ))
+            val loginData = LoginUserData(email = loginEmail, password = loginPassword)
+            when(val loginTokens = network.loginRequest(loginData)) {
+                null -> { }
+                else -> {
+                    userDataStorage.saveTokens(loginTokens)
+                }
+            }
         }
     }
 
@@ -71,7 +76,5 @@ class AuthScreenViewModel @Inject constructor(
         network.registerRequest("Some", "Some")
     }
 
-    private fun checkLogin(): Boolean {
-        return true
-    }
+
 }

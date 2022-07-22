@@ -35,22 +35,10 @@ class RetrofitNetwork : NetworkLayer {
     private val sandboxService = stagingRetrofit.create(API::class.java)
 
     override suspend fun loginRequest(loginUserData: LoginUserData): UserTokens? {
-        val healhcheckResponse = sandboxService.healthcheck()
-        when(healhcheckResponse.code()) {
-            200 -> println("OK")
-            else -> println("ErrorCode : ${healhcheckResponse.code()}")
-        }
-
         val response = sandboxService.login(loginUserData)
         return when(response.code()) {
-            200 -> {
-                println("OK Login")
-                response.body()
-            }
-            else -> {
-                println("ErrorCode Login: ${response.code()}")
-                null
-            }
+            200 -> response.body()
+            else -> null
         }
     }
 
